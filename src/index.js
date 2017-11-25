@@ -55,12 +55,13 @@ class Game extends React.Component {
           squares: Array(9).fill(null),
         }
       ],
+      stepNumber: 0,
       turnForX: true,
     };
   }
 
   handleClick(i) {
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     // using slice() for immutability
     const squares = current.squares.slice();
@@ -76,13 +77,22 @@ class Game extends React.Component {
           squares: squares,
         }
       ]),
+      stepNumber: history.length,
       turnForX: !this.state.turnForX,
+    });
+  }
+
+  jumpTo(move) {
+    // X's turn is on even moves
+    this.setState({
+      stepNumber: move,
+      turnForX: (move % 2) == 0
     });
   }
 
   render() {
     const history = this.state.history;
-    const current = history[history.length -1];
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
