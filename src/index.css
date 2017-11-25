@@ -33,6 +33,10 @@ ol, ul {
   width: 70px;
 }
 
+.winningTile {
+  background-color: #bcf3a5;
+}
+
 .square:focus {
   outline: none;
 }
