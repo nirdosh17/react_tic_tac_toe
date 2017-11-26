@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Sound from 'react-sound';
 import './index.css';
 
 // functional component:
@@ -118,15 +119,18 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const stepNumber = this.state.stepNumber;
 
     const moves = history.map((step, move) => {
+      // highlight current move
+      let moveStyles = (move === stepNumber) ? {backgroundColor: '#e6f382'} : {}
+
       const description = move ?
         'Go to move #' + move :
         'Go to game start';
-
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{description}</button>
+          <button style={moveStyles} onClick={() => this.jumpTo(move)}>{description}</button>
         </li>
       )
     });
@@ -155,8 +159,30 @@ class Game extends React.Component {
           <div className="status">{status}</div>
           <ol>{moves}</ol>
         </div>
+        <div className="sound">
+          <WinningSound winner={winner} />
+        </div>
       </div>
     );
+  }
+}
+
+class WinningSound extends React.Component {
+  render() {
+    if(this.props.winner) {
+      return (
+        <Sound
+          url="tada.mp3"
+          volume={50}
+          playStatus={Sound.status.PLAYING}
+          onLoading={this.handleSongLoading}
+          onPlaying={this.handleSongPlaying}
+          onFinishedPlaying={this.handleSongFinishedPlaying}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -176,7 +202,7 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return {
         name: squares[a],
-        winningPositions: winningPositions[i]
+        winningPositions: winningPositions[i],
       };
     }
   }
