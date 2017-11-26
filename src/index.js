@@ -118,15 +118,18 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const stepNumber = this.state.stepNumber;
 
     const moves = history.map((step, move) => {
+      // highlight current move
+      let moveStyles = (move === stepNumber) ? {backgroundColor: '#e6f382'} : {}
+
       const description = move ?
         'Go to move #' + move :
         'Go to game start';
-
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{description}</button>
+          <button style={moveStyles} onClick={() => this.jumpTo(move)}>{description}</button>
         </li>
       )
     });
