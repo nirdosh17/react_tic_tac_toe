@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Sound from 'react-sound';
 import './index.css';
 
 // functional component:
@@ -158,8 +159,30 @@ class Game extends React.Component {
           <div className="status">{status}</div>
           <ol>{moves}</ol>
         </div>
+        <div className="sound">
+          <WinningSound winner={winner} />
+        </div>
       </div>
     );
+  }
+}
+
+class WinningSound extends React.Component {
+  render() {
+    if(this.props.winner) {
+      return (
+        <Sound
+          url="tada.mp3"
+          volume={50}
+          playStatus={Sound.status.PLAYING}
+          onLoading={this.handleSongLoading}
+          onPlaying={this.handleSongPlaying}
+          onFinishedPlaying={this.handleSongFinishedPlaying}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -179,7 +202,7 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return {
         name: squares[a],
-        winningPositions: winningPositions[i]
+        winningPositions: winningPositions[i],
       };
     }
   }
