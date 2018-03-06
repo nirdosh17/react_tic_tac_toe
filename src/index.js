@@ -70,6 +70,8 @@ class Game extends React.Component {
       winningPositions: null,
       turnForX: true,
     };
+
+    this.startingState = this.state;
   }
 
   handleClick(i) {
@@ -115,6 +117,10 @@ class Game extends React.Component {
     });
   }
 
+  resetGame() {
+    this.setState(this.startingState);
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -123,7 +129,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       // highlight current move
-      let moveStyles = (move === stepNumber) ? {backgroundColor: '#e6f382'} : {}
+      let moveStyles = (move === stepNumber) ? { backgroundColor: '#e6f382' } : {}
 
       const description = move ?
         'Go to move #' + move :
@@ -159,8 +165,9 @@ class Game extends React.Component {
           <div className="status">{status}</div>
           <ol>{moves}</ol>
         </div>
-        <div className="sound">
+        <div>
           <WinningSound winner={winner} />
+          <button onClick={() => this.resetGame()}>Play Again</button>
         </div>
       </div>
     );
