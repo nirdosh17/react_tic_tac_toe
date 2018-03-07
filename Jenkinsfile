@@ -11,8 +11,8 @@ node {
     /* This builds the actual image; synonymous to
      * docker build on the command line */
 
-    app = docker.build("nirdosh17/react_tic_tac_toe")
     sh 'which docker'
+    app = docker.build("nirdosh17/react_tic_tac_toe")
 
   }
 
