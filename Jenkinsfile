@@ -11,9 +11,9 @@ node {
     /* This builds the actual image; synonymous to
      * docker build on the command line */
 
-    //app = docker.build("nirdosh17/react_tic_tac_toe")
-    sh "pwd"
-    app = sh("docker build -t nirdosh17/react_tic_tac_toe .")
+    app = docker.build("nirdosh17/react_tic_tac_toe")
+    sh 'which docker'
+
   }
 
   stage('Test image') {
@@ -21,7 +21,7 @@ node {
      * For this example, we're using a Volkswagen-type approach ;-) */
 
     app.inside {
-        sh 'echo "Tests passed"'
+      sh 'echo "Tests passed"'
     }
   }
 
@@ -31,8 +31,8 @@ node {
      * Second, the 'latest' tag.
      * Pushing multiple tags is cheap, as all the layers are reused. */
     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-        app.push("${env.BUILD_NUMBER}")
-        app.push("latest")
+      app.push("${env.BUILD_NUMBER}")
+      app.push("latest")
     }
   }
 }
