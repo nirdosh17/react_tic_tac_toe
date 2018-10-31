@@ -2,6 +2,11 @@
   "name": "tic_tac_toe",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirdosh17/react_tic_tac_toe.git"
+  },
+  "author": "Nirdosh Gautam",
   "dependencies": {
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
